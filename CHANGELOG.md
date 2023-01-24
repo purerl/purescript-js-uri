@@ -12,6 +12,8 @@ Bugfixes:
 
 Other improvements:
 
+- Switched from `http_uri` module to `uri_string` as the former will be removed in OTP26
+
 ## [v2.0.0](https://github.com/purescript-contrib/purescript-js-uri/releases/tag/v2.0.0) - 2021-02-26
 
 Breaking changes:

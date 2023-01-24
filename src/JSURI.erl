@@ -7,7 +7,9 @@ encdecURI(EncDec) ->
     try
       Succ(EncDec(S))
     catch
-      _:_ -> Fail("Couldn't encode/decode URI")
+      Err -> 
+        ErrorString = io_lib:format("~p", [Err]),
+        Fail(io_lib:format("Couldn't encode/decode URI: ~p", [ErrorString]))
     end
   end.
 
@@ -21,13 +23,12 @@ toRFC3896(Input) ->
   "!'()*"
   ).
 
-%% http_uri:encode/decode are almost matching JS (encode/decode)UriComponent
-'_encodeURIComponent'() -> encdecURI(fun (S) -> toRFC3896(http_uri:encode(S)) end).
-'_decodeURIComponent'() -> encdecURI(fun http_uri:decode/1).
+'_encodeURIComponent'() -> encdecURI(fun (S) -> toRFC3896(uri_string:quote(S)) end).
+'_decodeURIComponent'() -> encdecURI(fun uri_string:unquote/1).
 
 '_encodeFormURLComponent'() -> encdecURI(fun (S) -> 
-    binary:replace(toRFC3896(http_uri:encode(S)), <<"%20">>, <<"+">>, [global])
+    binary:replace(toRFC3896(uri_string:quote(S)), <<"%20">>, <<"+">>, [global])
   end).
 '_decodeFormURLComponent'() -> encdecURI(fun (S) ->
-    http_uri:decode(binary:replace(S, <<"+">>, <<"%20">>, [global]))
+    uri_string:unquote(binary:replace(S, <<"+">>, <<"%20">>, [global]))
   end).
