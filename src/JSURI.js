@@ -26,17 +26,13 @@ export const _encodeFormURLComponent = function encode(fail, succeed, input) {
   }
 };
 
-function _decodeURIComponent(fail, succeed, input) {
+export function _decodeURIComponent(fail, succeed, input) {
   try {
     return succeed(decodeURIComponent(input));
   } catch (err) {
-    console.log(err);
-
     return fail(err);
   }
 }
-
-export const _decodeURIComponent = _decodeURIComponent;
 
 export const _decodeFormURLComponent = function encode(fail, succeed, input) {
   return _decodeURIComponent(fail, succeed, input.replace(/\+/g, " "));
