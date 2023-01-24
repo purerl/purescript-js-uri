@@ -10,7 +10,7 @@ function toRFC3896(input) {
   });
 }
 
-exports._encodeURIComponent = function encode(fail, succeed, input) {
+export const _encodeURIComponent = function encode(fail, succeed, input) {
   try {
     return succeed(toRFC3896(encodeURIComponent(input)));
   } catch (err) {
@@ -18,7 +18,7 @@ exports._encodeURIComponent = function encode(fail, succeed, input) {
   }
 };
 
-exports._encodeFormURLComponent = function encode(fail, succeed, input) {
+export const _encodeFormURLComponent = function encode(fail, succeed, input) {
   try {
     return succeed(toRFC3896(encodeURIComponent(input)).replace(/%20/g, "+"));
   } catch (err) {
@@ -30,12 +30,14 @@ function _decodeURIComponent(fail, succeed, input) {
   try {
     return succeed(decodeURIComponent(input));
   } catch (err) {
+    console.log(err);
+
     return fail(err);
   }
 }
 
-exports._decodeURIComponent = _decodeURIComponent;
+export const _decodeURIComponent = _decodeURIComponent;
 
-exports._decodeFormURLComponent = function encode(fail, succeed, input) {
+export const _decodeFormURLComponent = function encode(fail, succeed, input) {
   return _decodeURIComponent(fail, succeed, input.replace(/\+/g, " "));
 };

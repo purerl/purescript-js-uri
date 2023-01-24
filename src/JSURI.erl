@@ -7,7 +7,9 @@ encdecURI(EncDec) ->
     try
       Succ(EncDec(S))
     catch
-      _:_ -> Fail("Couldn't encode/decode URI")
+      Err -> 
+        ErrorString = io_lib:format("~p", [Err]),
+        Fail(io_lib:format("Couldn't encode/decode URI: ~p", [ErrorString]))
     end
   end.
 
